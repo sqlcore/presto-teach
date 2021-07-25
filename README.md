@@ -11,12 +11,13 @@ presto的开发文档，和源码阅读，问题调优等相关资料特别少�
 ## 项目架构
 
 - 1_基础概念与全面了解
-    - 论文阅读：Presto_SQL_on_Everything
+    - [论文阅读：Presto_SQL_on_Everything](./1_基础概念与全面了解/论文阅读：Presto_SQL_on_Everything.md)
     - 书籍阅读：Presto实战
     - 书籍阅读：Presto技术内幕
     - 基础框架Airlift
     - 概念设计与角色分布
-    - 源码分布
+    - [源码分布](./1_基础概念与全面了解/源码分布.md)
+    - [源码开发与阅读环境搭建](./1_基础概念与全面了解/源码开发与阅读环境搭建.md)
 - 2_通信流程
     - 内部通信方式与流程
     - 服务发现流程
@@ -24,7 +25,7 @@ presto的开发文档，和源码阅读，问题调优等相关资料特别少�
     - 任务提交流程
 - 3_计算流程
     - 解析流程
-        - [解析框架Antlr在Presto中的应用](./01-大数据/04-Presto/解析框架Antlr在Presto中的应用.md)
+        - 解析框架Antlr在Presto中的应用
     - 执行计划生成流程
     - 执行计划优化，分布式化
     - 调度流程
@@ -33,7 +34,7 @@ presto的开发文档，和源码阅读，问题调优等相关资料特别少�
     - 内存池的划分与调度
     - 配置中的内存配置与理解
 - 4_容错与恢复流程
-    - 长时间运行任务的容错实现与讨论 [连接1](https://github.com/trinodb/trino/issues/455) [链接2](https://github.com/prestodb/presto/issues/11241)
+    - 长时间运行任务的容错实现与讨论 [链接1](https://github.com/trinodb/trino/issues/455) [链接2](https://github.com/prestodb/presto/issues/11241)
 - 5_插件思想
     - 了解Presto的插件设计思想
     - 用户自定义函数插件
@@ -48,18 +49,19 @@ presto的开发文档，和源码阅读，问题调优等相关资料特别少�
     - 基础监控接口
     - 对接Prometheus生态
 - 8_其他扩展
-    - Presto On Spark [连接1](https://github.com/prestodb/presto/issues/13856) [链接2](https://prestodb.io/docs/current/installation/spark.html?highlight=spark)
-    - Presto On TiKV
+    - Presto On Spark [链接1](https://github.com/prestodb/presto/issues/13856) [链接2](https://prestodb.io/docs/current/installation/spark.html?highlight=spark)
+    - Presto On TiKV [链接1](https://github.com/marsishandsome/presto/tree/feature/tidb-hackathon-2019) [链接2](https://github.com/tidb-incubator/TiBigData)
+    - Presto On hetu [链接1](https://github.com/openlookeng/hetu-core)
 - 9_问题总结
-  - where子句中在对char类型进行判断时需要手动补齐空格
-  - hive元数据连接超时
-  - jdbc出现错误Attempted reconnect 3 times
-  - mongodb连接超时，异常MongoTimeoutException
-  - worker资源问题
-  - 时区问题
-  - 最大查询内存问题
-  - 资源文件加载错误
-  - 调试代码的超时限制
+  - [where子句中在对char类型进行判断时需要手动补齐空格](./9_问题总结/where子句中在对char类型进行判断时需要手动补齐空格.md)
+  - [hive元数据连接超时](./9_问题总结/hive元数据连接超时.md)
+  - [jdbc错误](./9_问题总结/jdbc错误.md)
+  - [mongodb连接异常MongoTimeoutException](./9_问题总结/mongodb连接异常MongoTimeoutException.md)
+  - [worker资源问题](./9_问题总结/worker资源问题.md)
+  - [时区问题](./9_问题总结/时区问题.md)
+  - [最大查询内存问题](./9_问题总结/最大查询内存问题.md)
+  - [资源文件加载错误](./9_问题总结/资源文件加载错误.md)
+  - [调试代码的超时限制](./9_问题总结/调试代码的超时限制.md)
 - 10_二次开发
   - 隐式转换
   - 基于event-listener实现用户行为日志
@@ -67,11 +69,12 @@ presto的开发文档，和源码阅读，问题调优等相关资料特别少�
   - trino issues与pr 解读
   - trino slack 解读  
   - presto issues与pr 解读
-  - zhihu专栏：presto-cn
+  - [zhihu专栏：presto-cn](https://www.zhihu.com/column/presto-cn)
   - 易观博客
-  - zhihu用户：qw
+  - [zhihu用户：qw](https://www.zhihu.com/people/qw-qw-72/posts)
   - 分享实践
-  - zhihu专栏：深入浅出Presto：PB级OLAP引擎
-  - 个人博客：若飞
-  - 个人博客：马云雷
-  - oppo博客
+  - [zhihu专栏：深入浅出Presto：PB级OLAP引擎](https://www.zhihu.com/column/c_1294277883771940864)
+  - [个人博客：若飞](http://armsword.com/)
+  - [个人博客：马云雷](https://mayunlei.github.io/archives/)
+  - [oppo博客](https://www.zhihu.com/org/oppohu-lian-wang-ji-zhu)
+  - [learn-bigdata](https://learn-bigdata.incubator.edurt.io/docs/Presto)
