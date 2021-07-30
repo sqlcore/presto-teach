@@ -78,3 +78,4 @@ presto的开发文档，和源码阅读，问题调优等相关资料特别少�
   - [个人博客：马云雷](https://mayunlei.github.io/archives/)
   - [oppo博客](https://www.zhihu.com/org/oppohu-lian-wang-ji-zhu)
   - [learn-bigdata](https://learn-bigdata.incubator.edurt.io/docs/Presto)
+  - [个人博客：あらびき日記](https://abicky.net/tag/presto/)
