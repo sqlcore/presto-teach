@@ -21,6 +21,7 @@ presto的开发文档，和源码阅读，问题调优等相关资料特别少�
 - 2_通信流程
     - 内部通信方式与流程
     - 服务发现流程
+      - [服务发现-主要流程介绍篇](./2_通信流程/服务发现-主要流程介绍篇.md)
     - 客户端与集群的连接通信流程
     - 任务提交流程
 - 3_计算流程
@@ -28,6 +29,7 @@ presto的开发文档，和源码阅读，问题调优等相关资料特别少�
         - 解析框架Antlr在Presto中的应用
     - 执行计划生成流程
     - 执行计划优化，分布式化
+    - 计算模型
     - 调度流程
     - 队列控制流程
 - 4_内存管理
@@ -78,3 +80,4 @@ presto的开发文档，和源码阅读，问题调优等相关资料特别少�
   - [个人博客：马云雷](https://mayunlei.github.io/archives/)
   - [oppo博客](https://www.zhihu.com/org/oppohu-lian-wang-ji-zhu)
   - [learn-bigdata](https://learn-bigdata.incubator.edurt.io/docs/Presto)
+  - [个人博客：あらびき日記](https://abicky.net/tag/presto/)
