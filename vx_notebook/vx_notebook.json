@@ -7,34 +7,24 @@
     },
     "history": [
         {
-            "last_accessed_time": "2021-08-16T01:47:26Z",
+            "last_accessed_time": "2021-10-06T02:13:46Z",
             "line_number": -1,
-            "path": "9_问题总结/worker资源问题.md"
+            "path": "README.md"
         },
         {
-            "last_accessed_time": "2021-08-16T02:07:25Z",
+            "last_accessed_time": "2021-10-06T02:13:46Z",
             "line_number": -1,
-            "path": "9_问题总结/where子句中在对char类型进行判断时需要手动补齐空格.md"
+            "path": "1_基础概念与全面了解/源码分布.md"
         },
         {
-            "last_accessed_time": "2021-08-23T02:48:33Z",
-            "line_number": 0,
-            "path": "2_通信流程/服务发现流程.md"
-        },
-        {
-            "last_accessed_time": "2021-08-23T02:50:29Z",
-            "line_number": 2,
+            "last_accessed_time": "2021-10-06T02:14:53Z",
+            "line_number": 417,
             "path": "1_基础概念与全面了解/源码开发与阅读环境搭建.md"
         },
         {
-            "last_accessed_time": "2021-08-23T03:32:32Z",
-            "line_number": 845,
+            "last_accessed_time": "2021-10-06T08:41:40Z",
+            "line_number": 984,
             "path": "2_通信流程/服务发现-主要流程介绍篇.md"
-        },
-        {
-            "last_accessed_time": "2021-08-23T03:32:43Z",
-            "line_number": -1,
-            "path": "README.md"
         }
     ],
     "image_folder": "vx_images",
