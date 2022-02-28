@@ -53,7 +53,7 @@ presto的开发文档，和源码阅读，问题调优等相关资料特别少�
     - Connector的设计与实现思路
     - Connector开发实例
 - 08_运维与监控
-    - 基础监控接口
+    - [监控的几种方式](./08_运维与监控/监控的几种方式.md)
     - 对接Prometheus生态
 - 09_其他扩展
     - Presto On Spark [链接1](https://github.com/prestodb/presto/issues/13856) [链接2](https://prestodb.io/docs/current/installation/spark.html?highlight=spark)
