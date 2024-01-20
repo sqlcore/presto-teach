@@ -54,7 +54,9 @@ Presto 和 Trino 的开发文档，和源码阅读，问题调优等相关资料
     - Connector开发实例
 - 08_运维与监控
     - [监控的几种方式](./08_运维与监控/监控的几种方式.md)
-    - 对接Prometheus生态
+    - [对接Prometheus生态](./08_运维与监控/对接Prometheus生态.md)
+    - [如何发现当前Presto集群的性能瓶颈_初探](./08_运维与监控/如何发现当前Presto集群的性能瓶颈_初探.md)
+    - [执行计划Stage颜色介绍](./08_运维与监控/执行计划Stage颜色介绍.md)
 - 09_其他扩展
     - Presto On Spark [链接1](https://github.com/prestodb/presto/issues/13856) [链接2](https://prestodb.io/docs/current/installation/spark.html?highlight=spark)
     - Presto On TiKV [链接1](https://github.com/marsishandsome/presto/tree/feature/tidb-hackathon-2019) [链接2](https://github.com/tidb-incubator/TiBigData)
