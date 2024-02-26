@@ -1,0 +1,8 @@
+.idea
+*.log
+_v_recycle_bin
+*.vswp
+*.swp
+*.DS_Store
+*.~vsd
+vx_recycle_bin
