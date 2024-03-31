@@ -50,11 +50,15 @@ Presto 和 Trino 的开发文档，和源码阅读，问题调优等相关资料
     - Connector开发实例
         - [Presto如何实现查询下推_初探](./07_插件思想/Connector开发实例/Presto如何实现查询下推_初探.md)
         - [Connector开发实例_引](./07_插件思想/Connector开发实例/Connector开发实例_引.md)
+        - [Presto从零开始实现一个Connector_实现流程简述与测试](./07_插件思想/Connector开发实例/Presto从零开始实现一个Connector_实现流程简述与测试.md)
+        - MySQL_Connector
+            - [Presto查询Doris问题](./07_插件思想/Connector开发实例/MySQL_Connector/Presto查询Doris问题.md)
 - 08_运维与监控
     - [监控的几种方式](./08_运维与监控/监控的几种方式.md)
     - [对接Prometheus生态](./08_运维与监控/对接Prometheus生态.md)
     - [如何发现当前Presto集群的性能瓶颈_初探](./08_运维与监控/如何发现当前Presto集群的性能瓶颈_初探.md)
     - [执行计划Stage颜色介绍](./08_运维与监控/执行计划Stage颜色介绍.md)
+    - [Presto的Worker为什么会挂掉](./08_运维与监控/Presto的Worker为什么会挂掉.md)
 - 09_其他扩展
     - Presto On Spark [链接1](https://github.com/prestodb/presto/issues/13856) [链接2](https://prestodb.io/docs/current/installation/spark.html?highlight=spark)
     - Presto On TiKV [链接1](https://github.com/marsishandsome/presto/tree/feature/tidb-hackathon-2019) [链接2](https://github.com/tidb-incubator/TiBigData)
