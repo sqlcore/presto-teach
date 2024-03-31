@@ -1,5 +1,10 @@
 # Presto的Worker为什么会挂掉
 
+[返回首页](../README.md)
+
+---
+
+
 ## 背景
 
 平常在维护 Presto 集群时，经常会出现跑了某个 SQL 后会挂掉一个或多个 Worker，因为 Presto MPP 架构的特性，与这个 Worker 相关的 SQL 都会挂掉。
