@@ -1,5 +1,9 @@
 # Presto类型系统浅入
 
+[返回首页](../README.md)
+
+---
+
 ## 类型分类
 
 这里我们可以先了解一下[Presto类型系统初探](https://zhuanlan.zhihu.com/p/55299409)中的类型分布。
@@ -321,8 +325,11 @@ AbstractLongType 抽象类的存储类型是 Long，AbstractIntType 是 Integer�
 
 #### 处理精度
 
+TODO
+
 #### 时间特殊处理
 
+TODO
 
 ### AbstractFixedWidthType
 
@@ -334,11 +341,14 @@ AbstractLongType 抽象类的存储类型是 Long，AbstractIntType 是 Integer�
 
 ## 类型的赋值
 
+TODO
+
 ## 类型的比较
 
 以时间类型来举例类型比较功能
 
 
+TODO
 
 
 ## 参考
