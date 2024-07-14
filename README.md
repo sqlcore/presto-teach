@@ -57,6 +57,7 @@ Presto 和 Trino 的开发文档，和源码阅读，问题调优等相关资料
     - [基础监控接口](./08_运维与监控/基础监控接口.md)
     - [对接Prometheus生态](./08_运维与监控/对接Prometheus生态.md)
     - [如何发现当前Presto集群的性能瓶颈_初探](./08_运维与监控/如何发现当前Presto集群的性能瓶颈_初探.md)
+    - [如何发现当前Presto集群的性能瓶颈_IO瓶颈](./08_运维与监控/如何发现当前Presto集群的性能瓶颈_IO瓶颈.md)
     - [执行计划Stage颜色介绍](./08_运维与监控/执行计划Stage颜色介绍.md)
     - [Presto的Worker为什么会挂掉](./08_运维与监控/Presto的Worker为什么会挂掉.md)
 - 09_其他扩展
@@ -73,7 +74,9 @@ Presto 和 Trino 的开发文档，和源码阅读，问题调优等相关资料
   - [最大查询内存问题](./10_问题总结/最大查询内存问题.md)
   - [资源文件加载错误](./10_问题总结/资源文件加载错误.md)
   - [调试代码的超时限制](./10_问题总结/调试代码的超时限制.md)
-  - [presto错误格式分区问题](./10_问题总结/presto错误格式分区问题.md)
+  - [Presto错误格式分区问题](./10_问题总结/Presto错误格式分区问题.md)
+  - [Presto单元测试错误NoClassDefFoundError_QueryAnalyzer_引发的版本使用思考](./10_问题总结/Presto单元测试错误NoClassDefFoundError_QueryAnalyzer_引发的版本使用思考.md)
+  - [Presto中文问题](./10_问题总结/Presto中文问题.md)
 - 11_二次开发
   - 隐式转换
   - 基于event-listener实现用户行为日志
