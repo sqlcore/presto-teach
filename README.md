@@ -75,7 +75,7 @@ Presto 和 Trino 的开发文档，和源码阅读，问题调优等相关资料
   - [资源文件加载错误](./10_问题总结/资源文件加载错误.md)
   - [调试代码的超时限制](./10_问题总结/调试代码的超时限制.md)
   - [Presto单元测试错误NoClassDefFoundError_QueryAnalyzer_引发的版本使用思考](./10_问题总结/Presto单元测试错误NoClassDefFoundError_QueryAnalyzer_引发的版本使用思考.md)
-  - [Presto错误格式分区问题](./10_问题总结/Presto错误格式分区问题.md)
+  - [Presto格式错误造成的分区问题](./10_问题总结/Presto格式错误造成的分区问题.md)
   - [Presto中文问题](./10_问题总结/Presto中文问题.md)
 - 11_二次开发
   - 隐式转换
