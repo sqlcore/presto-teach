@@ -77,13 +77,21 @@ Presto 和 Trino 的开发文档，和源码阅读，问题调优等相关资料
   - [Presto单元测试错误NoClassDefFoundError_QueryAnalyzer_引发的版本使用思考](./10_问题总结/Presto单元测试错误NoClassDefFoundError_QueryAnalyzer_引发的版本使用思考.md)
   - [Presto格式错误造成的分区问题](./10_问题总结/Presto格式错误造成的分区问题.md)
   - [Presto中文问题](./10_问题总结/Presto中文问题.md)
-- 11_二次开发
+- 11_性能优化
+  - 缓存
+    - [Presto元数据缓存解析](./11_性能优化/缓存/Presto元数据缓存解析.md)
+    - [Presto 在知乎的缓存加速实践](https://zhuanlan.zhihu.com/p/661179006)
+    - [Presto 在知乎的缓存加速复盘](https://zhuanlan.zhihu.com/p/18707848840)
+  - 索引
+  - 调度
+- 12_二次开发
+  - [二次开发工程介绍](./12_二次开发/二次开发工程体系介绍.md)
   - 隐式转换
   - 基于event-listener实现用户行为日志
   - 实现自定义密码认证
   - udf开发
   - hadoop包兼容
-- 12_资料参考(排名不分先后)
+- 13_资料参考(排名不分先后)
   - trino issues与pr 解读
   - trino slack 解读 
   - presto issues与pr 解读
