@@ -8,6 +8,8 @@
 
 这里我们可以先了解一下[Presto类型系统初探](https://zhuanlan.zhihu.com/p/55299409)中的类型分布。
 
+> 下面的关系图已经过时，不过现在大体的设计还是遵循了这个路线，不影响我们学习。
+
 ![](vx_images/226360128042687.png)
 
 ### 基本类型
@@ -97,15 +99,15 @@ Block 可以按照另一种更高一层的数据抽象来理解，里面同样�
 
 ## Presto 为什么要重新定义一套类型
 
-第一点，也是比较好理解的一点就是，虽然我们可以直接延用 Java 中的数据类型，但是在面向 SQL 建模时，原始的 Java 的数据类型可能不够。但是单纯讲无法满足，我们不能很好的理解，这里举几个例子。
+首先，Java 原生数据类型在 SQL 建模场景下存在功能限制。这主要体现在以下几个方面:
 
-在 SQL 类型中通常有不同的范围和精度要求。例如 SQL 中需要的 DECIMAL 类型需要支持非常大的数字和精确的小数，这在 Java 的原生类型中无法直接表示，这里说的无法表示是说无法用直接原生的 Java 类型。还有就是时间类型，在 SQL 中一般会有多种时间类型的定义，如 `DATE`, `TIME`, `TIMESTAMP`，以及 SQL 中的 NULL 处理与 Java 中的 NULL 也有所不同，这些类型在 Java 中没有直接对应的类型，或者如果直接使用 Java 原生类型会与 SQL 标准不匹配，一般面对这些类型都会重新设计封装。
+SQL 类型系统对数值范围和精度有严格要求。例如 DECIMAL 类型需要支持高精度的定点数运算，这超出了 Java 原生类型的表达能力。同样，SQL 中的时间日期类型(如 `DATE`、`TIME`、`TIMESTAMP`)以及 NULL 值的语义处理，都与 Java 原生类型有明显差异。直接使用 Java 类型难以满足 SQL 标准规范，因此需要专门设计封装。
 
-第二点，在面向 SQL 操作时，还有一个重要的概念 `元数据` 或者也可以叫 `schema`，因为 Presto 会借助元数据来对类型进行比如，`是否可以排序`、`是否可以比较`、`是否无边界`，等等操作。
+其次，SQL 系统需要丰富的元数据(metadata)支持。Presto 通过元数据定义了类型的多种属性和操作语义，包括排序性(sortable)、可比较性(comparable)、边界性(bounded)等特性。这些语义属性需要在类型系统层面进行统一管理。
 
-第三点，因为 Presto 是一个 OLAP 引擎，是需要支持列存数据的查询。那么在列存中，会有 Block 的概念，重新设计一种类型也是方便 Block 的操作。
+第三，作为 OLAP 引擎，Presto 采用列式存储架构，通过 Block 结构组织数据。自定义类型系统可以更好地适配 Block 的数据访问模式，提升查询性能。
 
-结合以上三点，所以 Presto 重新设计了一套类型系统。这个类型系统有个很重要的接口 `Type` 里面定义所有关键操作，接下来我们来看看这个接口的源码以及相关设计思想。
+基于以上考虑，Presto 实现了完整的类型系统架构。其核心是 `Type` 接口，该接口定义了类型系统的基础语义和操作规范。下面我们将详细分析这个接口的设计思想。
 
 ## Type 接口
 
@@ -117,7 +119,7 @@ Presto 的类型基本都基于这个接口，在这个接口中设计了很多�
 
 ### 类型识别
 
-以下这 2 个方法主要实现一个是对内展示类型的识别，另一个则是对外比如写 SQL 时，显示的 Varchar，Boolean 等等。
+以下这 2 个方法主要实现一个是对 Presto 系统自身逻辑使用所需的类型识别，另一个则是对外比如写 SQL 时，显示的 Varchar，Boolean 等等。
 
 - `getTypeSignature()` 方法：获取类型名称，不区分大小写，全局唯一，通常叫内部签名。
 
@@ -195,7 +197,7 @@ Presto 的类型基本都基于这个接口，在这个接口中设计了很多�
 - `long getLong(Block block, int position)`，有无边界获取
 - `double getDouble(Block block, int position)`，有无边界获取
 - `Slice getSlice(Block block, int position)`，有无边界获取
-- `Object getObject(Block block, int position)`，有无边界获取
+- `Object getObject(Block block, int position)`, 有无边界获取
 
 写入值：
 
@@ -239,9 +241,9 @@ for (int position = startIndex; position < endIndex; position++) {
 - `hash()` 计算哈希
 - `appendTo()` 将值追加到块构建器中
 
-## 定长和变长接口
+### Type 扩展：定长和变长接口
 
-### FixedWidthType 
+#### FixedWidthType 
 
 接口用于那些在内存中占用固定字节大小的数据类型。这意味着每个数据元素的大小是恒定的，不会根据实际值的不同而改变。
 
@@ -262,7 +264,7 @@ for (int position = startIndex; position < endIndex; position++) {
 
 `getFixedSize` 方法允许 Presto 精确地知道每个元素占用多少内存，这对于内存管理和性能优化非常重要。而 `createFixedSizeBlockBuilder` 方法则提供了一种高效创建和管理固定大小数据的方式。这些特性使得 `FixedWidthType` 在处理如整数、浮点数等固定大小数据时非常高效。
 
-### VariableWidthType
+#### VariableWidthType
 
 接口用于那些在内存中占用可变字节大小的数据类型。这些类型的数据元素根据实际值的不同，占用的字节大小也不同。
 
@@ -270,11 +272,45 @@ for (int position = startIndex; position < endIndex; position++) {
     *  灵活性：可以根据数据的实际内容动态调整所占用的空间。
     *  应用场景：典型的可变宽度类型包括字符串（如 `VARCHAR`）和二进制数据（如 `VARBINARY`）。
 
-## 其他抽象类
+#### 设计理解
+
+我们在源码中是可以看到 FixedWidthType 和 VariableWidthType 都 extends Type。
+
+思考一下，为什么要这样设计呢？为什么不都统一在 Type 接口里设计好呢？
+
+我们知道，定长类型与变长类型有些处理逻辑是相悖的，这是一种面向对象设计的 `契约` 概念。
+
+* 首先肯定是避免实现类必须实现它们不需要的方法
+* 方便了以后定长类型与变长类型的扩展
+* VariableWidthType和FixedWidthType代表了两种不同的"契约"
+* 实现FixedWidthType的类型承诺：我的每个值都是固定大小的
+* 实现VariableWidthType的类型承诺：我的值可能是变长的
+* 这种契约让使用这些类型的代码可以做出相应的优化假设
+
+**类型安全设计**
+
+遵守了这种契约，后续的开发与编译时是能保证类型安全的。
+
+```
+// 假设我们需要一个只处理固定长度类型的方法
+public void processFixedWidthType(FixedWidthType type) {
+    int size = type.getFixedSize();  // 编译时就能确保这个调用是安全的
+    // ...
+}
+```
+
+> 这种设计体现了 "组合优于继承" 的原则，通过接口组合而不是把所有功能都放在一个大接口中，使得系统更加灵活和可维护。这也是为什么现代编程语言和框架倾向于使用小接口而不是大接口的原因。
+
+
+## Type 后续的抽象类
+
+Type 算是所有类型的基础接口设计，而以下两个抽象类，算是 Presto 对类型的两层抽象。
+
+这两层抽象都处理了特定的关注点，避免的每个具体类型都要实现所有 Type 接口方法
 
 ### AbstractType
 
-作为所有类型的基础抽象类，提供了一些通用的实现和工具方法。它是其他更具体类型类的基础。
+AbstractType 是作为所有类型的基础抽象类，提供了一些通用的实现和工具方法，它是其他更具体类型类的基础。
 
 设计此抽象类，presto的主要是为所有的类型设计一个统一的基准行为，比如我们可以看到里面的大部分方法都返回了统一的异常，这样就相当于给接口方法一个默认的实现，保证所有的子类在默认的情况下，具有一致的效果。
 
@@ -299,64 +335,105 @@ public int compareTo(Block leftBlock, int leftPosition, Block rightBlock, int ri
 ### AbstractPrimitiveType AbstractVariableWidthType
 
 
+继承自AbstractType，专门用于原始类型，避免每个具体类型都要实现所有Type接口方法，提供了默认的错误处理机制，统一管理通用属性（如javaType）。
 
-### 为什么要再设计 Long Int Decimal DateTime 这些抽象类
+
+### 带有类型的抽象类 Long Int Decimal DateTime
+
+从 AbstractType，AbstractPrimitiveType 这些抽象类，往下走，我们可以看到会有很多具体类型的抽象类设计
+
+![](vx_images/41557301535957.png)
+
+比如
 
 * AbstractLongType 专门用于处理长整型数据（对应于 Java 中的 `long` 类型）。它提供了处理长整型数据的特定方法。
 * AbstractIntType 专门用于处理整型数据（对应于 Java 中的 `int` 类型）。它提供了处理整型数据的特定方法。
 * DecimalType 用于表示十进制数，支持固定和可变精度的十进制数。这个类提供了处理十进制数的特定方法。
-* AbstractDateTimeType 用于表示日期和时间类型的数据，如 `DATE`, `TIME`, `TIMESTAMP` 等。
 
 这里我们先思考一下，已经有一个 AbstractType 了，为什么还要设置具体类型的抽象呢？
 
-在 Presto 中设计 AbstractLongType、AbstractIntType、AbstractDecimalType 和 AbstractDateTimeType 这样的具体类型抽象类，是为了提供针对特定数据类型的专属化实现和优化。这些抽象类继承自 AbstractType 并增加了一些新的功能和特性，以适应各自数据类型的特定需求。
+在 Presto 中设计了 AbstractLongType， AbstractIntType， DecimalType 具体类型抽象类，是为了提供针对特定数据类型的专属化实现和优化。这些抽象类继承自 AbstractType 并增加了一些新的功能和特性，以适应各自数据类型的特定需求。
 
-这里我们可以分类的理解，分为长整型、大精度类型、和时间类型，那么这些3种类型里面，要设计哪些特殊处理呢？
+这里我们可以分类的理解，分为整型(也包括时间类型)、长整型、大精度类型，那么这些3种类型里面，要设计哪些特殊处理呢？
 
-#### 特殊类型长整型
+这样的设计主要有以下 4 个关键点
 
-AbstractLongType 抽象类的存储类型是 Long，AbstractIntType 是 Integer，首先在对这两种类型读取和写入时，都是使用的对应类型，减少不必要的类型转换。比如 AbstractLongType 的读写都是 long。
+1.   性能优化
+    *   整型：使用专门的IntArrayBlockBuilder
+    *   长整型：使用专门的LongArrayBlockBuilder
+    *   大精度：根据精度自动选择最优实现
+2.   类型安全
+    *   整型：处理int到long的安全转换
+    *   长整型：直接处理long值
+    *   大精度：精度和标度的验证
+3.   特殊运算
+    *   整型：整数比较逻辑
+    *   长整型：特殊的哈希计算
+    *   大精度：精度相关的运算
+4.   内存优化
+    *   整型：固定4字节
+    *   长整型：固定8字节
+    *   大精度：根据精度选择最优存储方式
 
-但是我们可以发现一些，这两个抽象类中，读取是 getLong，写入是 writeLong，为什么这里都用Long呢？是不是会有点误导呢？
+这种设计体现了"专门化"的思想，通过为不同数据类型提供专门的实现，既保证了类型安全，又实现了性能优化。每种类型的抽象类都关注于解决该类型特有的问题，使得具体类型的实现更加简单和高效。
 
-这是统一数据处理的设计，它起到了在使用时简化的效果，对于处理整型类操作时，可以统一使用它们。而且如果对于不同的整型单独再去实现相关类型，会调用的复杂性和开销。使用统一的方法可以减少这种开销。
-
-在某些情况下，使用 long 类型（即使对于实际上是 int 类型的数据）可以提高内存对齐和访问效率。同时在 presto 内部可能将所有数值类型统一表示为更大的类型（如 long），以便统一处理。这种表示方法在内部可以提高处理的灵活性和效率。
 
 ## Block 接口
 
-#### 处理精度
+根据前面的介绍，我们知道 Block 在 Presto 中是数据的载体，是 Presto 中最基础的数据存储和处理单元,主要有以下几个作用
 
-TODO
+1. 数据存储容器
+    - Block 作为一个列式存储的容器，用于存储同一类型的多个值
+    - 支持不同数据类型（如 int、long、string 等）的存储
+    - 提供内存高效的数据存储方式
+2. 设计了数据访问接口，比如 Block 里有如下方法
+    - getPositionCount 获取Block中的位置数
+    - isNull 获取指定位置的值是否为null
+    - getSizeInBytes 获取Block在内存中的大小
+    - getLogicalSizeInBytes 获取Block的逻辑大小
+3. Block 与 Type 类型接口的关系
+    - Type 定义了数据类型的行为和操作，Block 提供了实际的数据存储容器
+    - Type 负责对 Block 中的数据进行读写操作，例如：
+        - 从 Block 中读取 long 类型的值 long getLong(Block block, int position);
+        - 向 BlockBuilder 中写入 boolean 值 void writeBoolean(BlockBuilder blockBuilder, boolean value);
 
-#### 时间特殊处理
+Type 与 Block 设计的目的在于实现了数据存储和数据操作的解耦。
 
-TODO
+## 总结
 
-### AbstractFixedWidthType
+我们详细了解了 Presto 类型系统的设计理念和实现细节。从基本的类型分类，到底层的 Slice 结构，从 Block 的数据载体设计，到 Type 接口的丰富功能，再到抽象类的层次化实现，我们可以看到 Presto 在类型系统设计上的深思熟虑。
 
-用于表示固定宽度的数据类型，如整数和日期。这个类提供了处理固定大小数据的基础方法。
+这种设计既保证了类型系统的完整性和扩展性，又通过精心的性能优化确保了高效的数据处理能力。特别是在 Type 接口与 Block 的配合中，展现了优秀的解耦设计思想。
 
-### AbstractVariableWidthType
+让我们系统地总结一下 Presto 类型系统的核心要点：
 
-用于表示可变宽度的数据类型，如字符串或二进制数据。这个类提供了处理可变大小数据的基础方法。
+### 1. 核心组件
 
-## 类型的赋值
+- **Type**: 定义了类型的基本行为和属性
+- **Block**: 作为数据的载体，提供高效的列式存储
+- **Slice**: 作为底层数据结构，用于高效处理二进制数据
 
-TODO
+### 2. 类型体系的分层设计
 
-## 类型的比较
+- **基础接口层**: Type 接口定义基本契约
+- **抽象实现层**: AbstractType 提供通用实现
+- **类型特化层**: 如 AbstractLongType 等针对具体类型的抽象类
+- **具体实现层**: 最终的具体类型实现
 
-### 常用类型
+### 3. 关键设计特点
 
-以时间类型来举例类型比较功能
+- **类型安全**: 通过接口契约和类型检查确保类型安全
+- **性能优化**: 
+  - 通过 Block 的列式存储提升性能
+  - 提供无边界检查的操作方法
+  - 针对不同类型提供专门的优化实现
+- **扩展性**: 通过接口和抽象类的设计，支持新类型的扩展
 
-### 类型隐式转换
+### 4. 实际应用价值
 
+- 支持 SQL 标准的类型系统
+- 提供高效的数据处理能力
+- 良好的可维护性和扩展性
+- 与 Java 生态系统的良好集成
 
-TODO
-
-
-## 参考
-
-- https://zhuanlan.zhihu.com/p/55299409
+这种设计不仅满足了 Presto 作为分布式 SQL 查询引擎的需求，也为类型系统的设计提供了很好的参考。
