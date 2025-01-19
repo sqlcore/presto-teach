@@ -42,6 +42,7 @@ Presto 和 Trino 的开发文档，和源码阅读，问题调优等相关资料
 - 05_内存管理
     - 内存池的划分与调度
     - 配置中的内存配置与理解
+    - [Presto内存池使用调整](./05_内存管理/Presto内存池使用调整.md)
 - 06_容错与恢复流程
     - 长时间运行任务的容错实现与讨论 [链接1](https://github.com/trinodb/trino/issues/455) [链接2](https://github.com/prestodb/presto/issues/11241)
 - 07_插件思想
@@ -60,6 +61,7 @@ Presto 和 Trino 的开发文档，和源码阅读，问题调优等相关资料
     - [如何发现当前Presto集群的性能瓶颈_IO瓶颈](./08_运维与监控/如何发现当前Presto集群的性能瓶颈_IO瓶颈.md)
     - [执行计划Stage颜色介绍](./08_运维与监控/执行计划Stage颜色介绍.md)
     - [Presto的Worker为什么会挂掉](./08_运维与监控/Presto的Worker为什么会挂掉.md)
+    - [Presto排查Worker宕机问题_缓存与内存问题排查_上](./08_运维与监控/Presto排查Worker宕机问题_缓存与内存问题排查_上.md)
 - 09_其他扩展
     - Presto On Spark [链接1](https://github.com/prestodb/presto/issues/13856) [链接2](https://prestodb.io/docs/current/installation/spark.html?highlight=spark)
     - Presto On TiKV [链接1](https://github.com/marsishandsome/presto/tree/feature/tidb-hackathon-2019) [链接2](https://github.com/tidb-incubator/TiBigData)
